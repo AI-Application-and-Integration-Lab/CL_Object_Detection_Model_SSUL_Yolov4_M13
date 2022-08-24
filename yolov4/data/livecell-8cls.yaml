@@ -1,0 +1,10 @@
+# train and val datasets (image directory or *.txt file with image paths)
+train: ../dataset/livecelldataset/annotations/images_txt/train.txt
+val: ../dataset/livecelldataset/annotations/images_txt/val.txt
+test: ../dataset/livecelldataset/annotations/images_txt/test.txt
+
+# number of classes
+nc: 8
+
+# class names
+names: ["A172", "BT474", "BV-2", "Huh7", "MCF7", "SH-SHY5Y", "SkBr3", "SK-OV-3"]

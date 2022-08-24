@@ -1,0 +1,5 @@
+../dataset/glas/train_31.bmp
+../dataset/glas/train_58.bmp
+../dataset/glas/train_70.bmp
+../dataset/glas/train_74.bmp
+../dataset/glas/train_77.bmp

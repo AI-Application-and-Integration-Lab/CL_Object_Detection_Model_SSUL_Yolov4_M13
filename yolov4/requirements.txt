@@ -1,0 +1,7 @@
+scipy
+opencv-python
+matplotlib
+pycocotools
+tqdm
+pillow
+tensorboard

@@ -1,0 +1,10 @@
+# train and val datasets (image directory or *.txt file with image paths)
+train: ../dataset/glas/images_list/train.txt
+val: ../dataset/glas/images_list/test.txt
+test: ../dataset/glas/images_list/test.txt
+
+# number of classes
+nc: 1
+
+# class names
+names: ['foreground']
