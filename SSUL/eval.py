@@ -280,13 +280,6 @@ def validate(opts, model, loader, device, metrics):
                 preds = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
             
-#             t_size = (128, 128)
-#             preds = Image.fromarray(preds)
-#             preds = F.resize(preds, t_size, Image.BILINEAR)
-#             preds = np.array(preds)
-#             targets = Image.fromarray(targets)
-#             targets = F.resize(targets, t_size, Image.NEAREST)
-#             targets = np.array(targets)
             if "inv" in opts.task:
                 targets = remap(targets)
             
@@ -300,22 +293,16 @@ def validate(opts, model, loader, device, metrics):
                     Path(f'{opts.save_mask_dir}/{opts.dataset}_masks_{opts.task}_{opts.ckpt_postfix}{task_postfix}').mkdir(parents=True, exist_ok=True)
                 save_dir = f'{opts.save_mask_dir}/{opts.dataset}_masks_{opts.task}_{opts.ckpt_postfix}{task_postfix}'
                 if opts.dataset == "livecell":
-#                     save_dir = f'{opts.data_root}/livecelldataset_all/{opts.dataset}_masks_{opts.task}_{opts.ckpt_postfix}'
-#                     if not os.path.isdir(save_dir):
-#                         os.mkdir(save_dir)
                     for pred, file_name in zip(preds, details['file_name']):
                         img = Image.fromarray(np.uint8(pred))
                         file_name = file_name.replace('.tif', '_mask.tif')
                         img.save(f'{save_dir}/{file_name}')
                 elif opts.dataset == "glas":
-#                     save_dir = f'{opts.data_root}/glas/{opts.dataset}_masks_{opts.task}_{opts.ckpt_postfix}'
-#                     if not os.path.isdir(save_dir):
-#                         os.mkdir(save_dir)
                     for pred, file_name in zip(preds, details):
                         img = Image.fromarray(np.uint8(pred))
                         file_name = file_name+ '_mask.bmp'
                         img.save(f'{save_dir}/{file_name}')
-            break   
+               
             if opts.dataset == "glas":
                 interval = 1
 #             if (i + 1) % interval == 0:
@@ -323,7 +310,7 @@ def validate(opts, model, loader, device, metrics):
 #                 save_img(image, details, opts, 0)
 #                 save_img(preds[0], details, opts, 1)
 #                 save_img(targets[0], details, opts, 2)
-                
+
         score = metrics.get_results()
     return score
 

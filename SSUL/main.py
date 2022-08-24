@@ -554,32 +554,18 @@ def main(opts):
                     pred_prob = torch.softmax(outputs_prev, 1).detach()
                     
                 pred_scores, pred_labels = torch.max(pred_prob, dim=1)
-#                 print("==")
-#                 print(torch.unique(labels), torch.unique(pred_labels))
                 
                 pseudo_labels = torch.where( (labels <= fg_idx) & (pred_labels > fg_idx) & (pred_scores >= opts.pseudo_thresh), 
                                             pred_labels, 
                                             labels)
-#                 print(torch.unique(pseudo_labels))
-#                 print("==")
                     
                 loss = criterion(outputs, pseudo_labels)
             else:
-#                 print(torch.unique(labels))
-#                 print(outputs.shape, labels.shape)
                 loss = criterion(outputs, labels)
     
             if opts.feat_distillation and opts.curr_step > 0:
-#                 noises = torch.randn(opts.batch_size // 4, 3, opts.crop_size, opts.crop_size).to(device, dtype=torch.float32, non_blocking=True)
-#                 _, feat_prev = model_prev(noises, return_feat=True)
-#                 _, feat = model(noises, return_feat=True)
                 feat_loss = feat_criterion(feat, feat_prev)
                 loss += feat_loss
-#             if opts.feat_distillation and opts.curr_step > 0:
-#                 _, feat_prev = model_prev(images, return_feat=True)
-#                 _, feat = model(images, return_feat=True)
-#                 feat_loss = feat_criterion(feat, feat_prev)
-#                 loss += feat_loss
 
         scaler.scale(loss).backward()
         scaler.step(optimizer)
@@ -653,10 +639,6 @@ def main(opts):
 if __name__ == '__main__':
             
     opts = get_argparser().parse_args()
-#     if opts.feat_distillation:
-#         opts.batch_size = int(opts.batch_size / 2)
-        
-#     start_step = 0
     start_step = opts.curr_step
     total_step = len(get_tasks(opts.dataset, opts.task))
     
